@@ -512,10 +512,12 @@ sub colored {
         @codes = @rest;
     }
 
-    # Return the string unmolested if colors are disabled.
-    if ($ENV{ANSI_COLORS_DISABLED} || defined($ENV{NO_COLOR})) {
-        return $string;
-    }
+    # Return the string unmolested if colors are disabled or no codes provided.
+    return $string
+      if $ENV{ 'ANSI_COLORS_DISABLED' }
+      || defined( $ENV{ 'NO_COLOR' } )
+      || ! @codes
+      ;
 
     # Find the attribute string for our colors.
     my $attr = color(@codes);
